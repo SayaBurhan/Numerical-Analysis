@@ -1,1 +1,40 @@
- https://colab.research.google.com/drive/1-0plUwjRoiTf9gwE8MsMcujLHxvaPHmK?usp=sharing
+def bisection_method(func, a, b, tolerance=1e-6, max_iterations=100):
+    """
+    Find the root of a continuous function within the interval [a, b] using the bisection method.
+
+    Parameters:
+    - func: The continuous function for which the root is to be found.
+    - a, b: The interval [a, b] where the root is expected. The function must have different signs at 'a' and 'b'.
+    - tolerance: The desired accuracy of the root (default is 1e-6).
+    - max_iterations: The maximum number of iterations (default is 100).
+
+    Returns:
+    - The approximate root of the function.
+    """
+
+    if func(a) * func(b) > 0:
+        raise ValueError("The function must have different signs at 'a' and 'b'.")
+
+    iteration = 0
+    while (b - a) / 2 > tolerance and iteration < max_iterations:
+        midpoint = (a + b) / 2
+        if func(midpoint) == 0:
+            return midpoint
+        elif func(midpoint) * func(a) < 0:
+            b = midpoint
+        else:
+            a = midpoint
+        iteration += 1
+
+    return (a + b) / 2
+
+# Example usage:
+if __name__ == "__main__":
+    # Define the function for which you want to find the root
+    def example_function(x):
+        return x**3 - x**2 - 1
+
+    # Set the interval [a, b] and call the bisection method
+    root = bisection_method(example_function, 1, 2)
+
+    print(f"Approximate root: {root}")
